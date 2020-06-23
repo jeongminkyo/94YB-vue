@@ -9,11 +9,11 @@
                     <div class="link_post tit_line2">
                         <span class="desc_post">
                         <strong class="tit_post" style="display: inline-block">총 회비</strong>
-                        <strong class="tit_post" style="display: inline-block; float:right; margin-right:20px"></strong>
+                        <strong class="tit_post" style="display: inline-block; float:right; margin-right:20px">{{ this.totalCash | currency }}</strong>
                         </span>
                     <span class="data_info">
                         <span class="txt_category">업데이트</span>
-                        <span class="txt_date">
+                        <span class="txt_date">{{ this.updatedAt }}
                             
                         </span>
                         </span>
@@ -21,17 +21,31 @@
                 </li>
                 <li 
                     v-for="cash in cashList"
-                    :key="cash.imdnID">
-                    <div class="link_post tit_line2">
-                        <span class="desc_post">
-                            <strong class="tit_post" style="display: inline-block">{{ cash.Title }}</strong>
-                            <strong class="tit_post" style="display: inline-block; float:right; margin-right:20px">{{ cash.Year }}</strong>
-                        </span>
-                        <span class="data_info">
-                            <span class="txt_category">입금</span>
-                            <span class="txt_date">{{ cash.imdbID }}</span>
-                        </span>
-                    </div>
+                    :key="cash.id">
+                    <template v-if="cash.status === 0">
+                        <div class="link_post tit_line2">
+                            <span class="desc_post">
+                                <strong class="tit_post" style="display: inline-block">{{ cash.display_name }} {{ cash.description }}</strong>
+                                <strong class="tit_post" style="display: inline-block; float:right; margin-right:20px">{{ cash.money | currency }}</strong>
+                            </span>
+                            <span class="data_info">
+                                <span class="txt_category">입금</span>
+                                <span class="txt_date">{{ cash.created_at }}</span>
+                            </span>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="link_post tit_line2">
+                            <span class="desc_post">
+                                <strong class="tit_post" style="display: inline-block">{{ cash.description }}</strong>
+                                <strong class="tit_post" style="display: inline-block; float:right; margin-right:20px">{{ cash.money | currency }}</strong>
+                            </span>
+                            <span class="data_info">
+                                <span class="txt_category">출금</span>
+                                <span class="txt_date">{{ cash.created_at }}</span>
+                            </span>
+                        </div>
+                    </template>
                 </li>
             </ul>
             <div class="link_more">
@@ -48,12 +62,24 @@ export default {
     },
 
     data: () => ({
-
     }),
+
+    filters: {
+        currency: function (value) {
+            var num = new Number(value)
+            return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+        }
+    },
 
     computed: {
         cashList: function () {
             return this.$store.state.cash.cashes
+        },
+        totalCash: function () {
+            return this.$store.state.cash.totalCash
+        },
+        updatedAt: function () {
+            return this.$store.state.cash.updatedAt
         }
     }
 }
