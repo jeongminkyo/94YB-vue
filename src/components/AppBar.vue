@@ -6,19 +6,18 @@
             elevate-on-scroll
             scroll-target="#scrolling-techniques-7"
         >
-            <router-link to="/">
-                <v-toolbar-title class="navbar-brand">YB94 술친게이들</v-toolbar-title>
-            </router-link>
-            <v-spacer></v-spacer>
-            <v-app-bar-nav-icon class="navbar-toggler" @click="toggleDrawer()"></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon class="navbar-toggler" @click="toggleDrawer()"></v-app-bar-nav-icon>
+          <router-link to="/">
+              <v-toolbar-title class="navbar-brand">YB94 술친게이들</v-toolbar-title>
+          </router-link>
+          <v-spacer></v-spacer>
         </v-app-bar>
 
         <v-navigation-drawer
             v-model="drawer"
             absolute
             temporary
-            right
-        >
+        > 
             <v-list
             nav
             dense
@@ -80,26 +79,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.navbar-brand {
-    display: inline-block;
-    padding-top: 0.6125rem;
-    padding-bottom: 0.3125rem;
-    margin-right: 1rem;
-    font-size: 1.25rem;
-    line-height: inherit;
-    white-space: nowrap;
-    font-weight: 600;
-    color: #343a40;
-}
-
-.navbar-toggler {
-    font-size: 12px;
-    font-weight: 800;
-    padding: 13px;
-    text-transform: uppercase;
-    color: #343a40;
-}
-
-</style>
