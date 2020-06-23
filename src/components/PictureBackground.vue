@@ -3,10 +3,10 @@
         :style="backgroundStyle">
         <div class="overlay"></div>
         <div class="container">
-            <div class="site-heading">
-                <h1>YB 94</h1>
-                <span class="subheading">간은 40대, 얼굴은 30대, 나이는 20대, 마음만은 10대</span>
-            </div>
+          <div class="site-heading">
+              <h1>YB 94</h1>
+              <span class="subheading">간은 40대, 얼굴은 30대, 나이는 20대, 마음만은 10대</span>
+          </div>
         </div>
     </div>
 </template>
@@ -63,8 +63,12 @@ export default {
 
 <style scoped>
     .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
         position: relative;
-        padding: 0px;
     }
 
     .masthead {
@@ -86,11 +90,11 @@ export default {
         height: 100%;
         width: 100%;
         background-color: #212529;
-        opacity: 0.5;
+        opacity: 0.3;
     }
 
     .masthead .site-heading {
-        padding: 200px 0 150px;
+        padding: 100px 0 150px;
         color: white;
     }
 
@@ -111,7 +115,6 @@ export default {
 
     .masthead .site-heading .subheading {
         font-size: 24px;
-        font-weight: 300;
         line-height: 1.1;
         display: block;
         margin: 10px 0 0;
