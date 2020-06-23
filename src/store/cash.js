@@ -25,7 +25,7 @@ export default  {
       actions: {
         fetchCashes ({ commit }, pageNum) {
           return new Promise(async resolve => {
-            const res = await axios.get(`http://localhost:3000/api/v1/cashes?page=${pageNum}`)
+            const res = await axios.get(`https://yb94.name/api/v1/cashes?page=${pageNum}`)
             commit('pushIntoCashes', res.data.cashes)
             console.log(res.data)
             commit('updateState', {

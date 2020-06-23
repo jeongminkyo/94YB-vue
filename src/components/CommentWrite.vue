@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="comment-row">
         <div class="mx_auto_comment">
             <div id="comments_form_">
                 <div class="control-group">

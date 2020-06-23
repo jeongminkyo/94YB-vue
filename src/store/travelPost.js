@@ -24,7 +24,7 @@ export default  {
     actions: {
         fetchTravelPosts ({ commit }, pageNum) {
             return new Promise(async resolve => {
-                const res = await axios.get(`http://localhost:3000/api/v1/travel_posts?page=${pageNum}`)
+                const res = await axios.get(`https://yb94.name/api/v1/travel_posts?page=${pageNum}`)
                 commit('pushIntoTravelPosts', res.data)
                 resolve(res.data)
             })

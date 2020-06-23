@@ -21,7 +21,7 @@ export default  {
       actions: {
         fetchNotices ({ commit }, pageNum) {
           return new Promise(async resolve => {
-            const res = await axios.get(`http://localhost:3000/api/v1/notices?page=${pageNum}`)
+            const res = await axios.get(`https://yb94.name/api/v1/notices?page=${pageNum}`)
             commit('pushIntoNotices', res.data)
             resolve(res.data)
           })
