@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import notice from '@/store/notice'
 import travelPost from '@/store/travelPost'
 import cash from '@/store/cash'
-import comment from '@/store/comment'
 
 Vue.use(Vuex)
 
@@ -12,7 +11,6 @@ export default new Vuex.Store({
   modules: {
     notice,
     travelPost,
-    cash,
-    comment
+    cash
   }
 })

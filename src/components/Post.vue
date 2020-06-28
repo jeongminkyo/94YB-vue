@@ -1,5 +1,5 @@
 <template>
-    <div class>
+    <div>
         <div class="blogview_tit">
             <h2 class="post_heading">{{ post.title }}</h2>
             <cite class="by_blog">
@@ -23,7 +23,7 @@
             <p v-html="splitContext" class="blog_p">
             </p>
             <p 
-                v-for="attachment in post.notice_attachments"
+                v-for="attachment in post.attachments"
                 :key="attachment.id"
                 class="blog_p">
                 <img :src="attachment.url" class="context_image">
@@ -41,7 +41,7 @@
             </div>
             <v-btn
                 dark
-                small
+                middle
                 fixed
                 right
                 bottom

@@ -30,7 +30,7 @@
                             </span>
                             <span class="data_info">
                                 <span class="txt_category">입금</span>
-                                <span class="txt_date">{{ cash.created_at }}</span>
+                                <span class="txt_date">{{ cash.date }}</span>
                             </span>
                         </div>
                     </template>
@@ -42,7 +42,7 @@
                             </span>
                             <span class="data_info">
                                 <span class="txt_category">출금</span>
-                                <span class="txt_date">{{ cash.created_at }}</span>
+                                <span class="txt_date">{{ cash.date }}</span>
                             </span>
                         </div>
                     </template>
@@ -60,15 +60,24 @@
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
             <div class="link_more">
-            
+                <template>
+                    <div class="text-center">
+                        <v-pagination
+                        v-model="page"
+                        :length="totalPage"
+                        :total-visible="visiblePage"
+                        @input="loadCashList"
+                        ></v-pagination>
+                    </div>
+                </template>
             </div>
         </div>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-text class="pa-5">
                 <v-radio-group v-model="status" row>
-                    <v-radio label="수입" value="0"></v-radio>
-                    <v-radio label="지출" value="1"></v-radio>
+                    <v-radio label="수입" :value="0"></v-radio>
+                    <v-radio label="지출" :value="1"></v-radio>
                 </v-radio-group>
               <v-menu
                 v-model="menu2"
@@ -92,6 +101,17 @@
               </v-menu>
               <v-text-field label="설명" prepend-icon="mdi-comment-multiple-outline" v-model="description"></v-text-field>
               <v-text-field label="금액" prepend-icon="mdi-cash-usd" suffix="₩" v-model="money"></v-text-field>
+              <template v-if="status === INCOME">
+                    <v-select
+                        :items="items"
+                        item-text="display_name"
+                        item-value="id"
+                        label="이름"
+                        prepend-icon="mdi-account"
+                        single-line
+                        v-model="cashUserId"
+                    ></v-select>
+              </template>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -105,7 +125,7 @@
 <script>
 export default {
     created () {
-        this.$store.dispatch('cash/loadCashes')
+        this.$store.dispatch('cash/loadCashes', 1)
     },
 
     data () {
@@ -115,10 +135,21 @@ export default {
         dialog: false,
         date: '',
         menu2: false,
-        status: 0,
+        status: -1,
         description: '',
-        money: 0
+        money: 0,
+        items: this.$store.state.cash.userList,
+        cashUserId: '',
+        page: 1
       }
+    },
+
+    watch: {
+        status: function () {
+            if (this.status === this.INCOME) {
+                this.$store.dispatch('cash/loadUserList')
+            }
+        }
     },
 
     filters: {
@@ -137,15 +168,39 @@ export default {
         },
         updatedAt: function () {
             return this.$store.state.cash.updatedAt
+        },
+        totalPage: function () {
+            return this.$store.state.cash.totalPage
+        },
+
+        visiblePage: function () {
+            if(this.totalPage > 10) {
+                return this.totalPage / 2 + 1
+            } else{
+                return this.totalPage
+            }
         }
     },
 
     methods: {
-        submit: function () {
-            this.dialog = !this.dialog
-            console.log(this.date, this.status, this.description, this.money)
-        }
+        loadCashList: function (page) {
+            this.$store.dispatch('cash/loadCashes', page)
+        },
 
+        submit: function () {
+            this.$store.dispatch('cash/createCash', { date: this.date, status: this.status, description: this.description, money: this.money, user_id: this.cashUserId })
+            this.loadCashList(this.page)
+            this.initData()
+        },
+
+        initData: function () {
+            this.dialog = !this.dialog
+            this.date = ''
+            this.status = -1
+            this.description = ''
+            this.money = 0
+            this.cashUserId = ''
+        },
     }
 }
 </script>

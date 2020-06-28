@@ -4,7 +4,8 @@ export default  {
     namespaced: true,
 
     state: () => ({
-        travelPosts: []
+        travelPosts: [],
+        totalPage: 1
       }),
     
     mutations: {
@@ -25,17 +26,20 @@ export default  {
         fetchTravelPosts ({ commit }, pageNum) {
             return new Promise(async resolve => {
                 const res = await axios.get(`https://yb94.name/api/v1/travel_posts?page=${pageNum}`)
-                commit('pushIntoTravelPosts', res.data)
+                commit('pushIntoTravelPosts', res.data.travel_posts)
+                commit('updateState', {
+                    totalPage: res.data.total_page
+                })
                 resolve(res.data)
             })
         },
         
-        async loadTravelPosts ({ commit, dispatch }) {
+        async loadTravelPosts ({ commit, dispatch }, pageNum) {
             commit('updateState', {
                 travelPosts: [] // 초기화
             })
 
-            await dispatch('fetchTravelPosts', 1)
+            await dispatch('fetchTravelPosts', pageNum)
         }
     }
 }

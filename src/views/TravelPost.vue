@@ -2,10 +2,18 @@
     <div>
         <div
             v-for="post in postList"
-            :key="post.imdbID">
+            :key="post.id">
             <post :post="post" />
-            <comment-list />
+            <comment-list :comments="post.comments" />
             <comment-write />
+        </div>
+        <div>
+            <v-pagination
+                v-model="page"
+                :length="totalPage"
+                :total-visible="visiblePage"
+                @input="loadTravelList"
+            ></v-pagination>
         </div>
     </div>
 </template>
@@ -23,17 +31,37 @@ export default {
     },
 
     created () {
-        this.$store.dispatch('travelPost/loadTravelPosts')
+        this.$store.dispatch('travelPost/loadTravelPosts', 1)
     },
 
-    data: () => ({
-
-    }),
+    data: function () {
+      return {
+          page: 1
+      }  
+    },
 
     computed: {
         postList: function () {
             return this.$store.state.travelPost.travelPosts
+        },
+
+        totalPage: function () {
+            return this.$store.state.notice.totalPage
+        },
+
+        visiblePage: function () {
+            if(this.totalPage > 10) {
+                return this.totalPage / 2 + 1
+            } else{
+                return this.totalPage
+            }
         }
+    },
+
+    methods: {
+        loadTravelList: function (page) {
+            this.$store.dispatch('notice/loadTravelPosts', page)
+        },
     }
     
 }
